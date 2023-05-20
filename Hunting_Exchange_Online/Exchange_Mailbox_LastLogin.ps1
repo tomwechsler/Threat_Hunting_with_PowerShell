@@ -20,10 +20,10 @@ Get-AcceptedDomain | Format-List Domainname, *type*
 Get-Mailbox -Identity jane.ford | Format-List Identity,WhenCreated,ExchangeGUID
 
 #Display the list of inactive mailboxes
-Get-Mailbox -InactiveMailboxOnly | FT DisplayName,PrimarySMTPAddress,WhenSoftDeleted
+Get-Mailbox -InactiveMailboxOnly | Format-Table DisplayName,PrimarySMTPAddress,WhenSoftDeleted
 
 #Export the list of inactive mailboxes
-Get-Mailbox -InactiveMailboxOnly | Select Displayname,PrimarySMTPAddress,DistinguishedName,ExchangeGuid,WhenSoftDeleted | Export-Csv InactiveMailboxes.csv -NoType
+Get-Mailbox -InactiveMailboxOnly | Select-Object Displayname,PrimarySMTPAddress,DistinguishedName,ExchangeGuid,WhenSoftDeleted | Export-Csv InactiveMailboxes.csv -NoType
 
 #All mailboxes in one variable
 $mailboxes = Get-Mailbox
@@ -37,7 +37,7 @@ Where-Object {$_.NewestItemReceivedDate -ne $null} | Select-Object Identity,Newe
 Get-Mailbox -ResultSize Unlimited | Get-MailboxStatistics | Select-Object DisplayName,LastLogonTime
 
 #Last login for 90 days
-Get-Mailbox -ResultSize Unlimited | Get-MailboxStatistics | Where{$_.Lastlogontime -lt (Get-Date).AddDays(-90)} | Select DisplayName, LastLoggedOnUserAccount, LastLogonTime
+Get-Mailbox -ResultSize Unlimited | Get-MailboxStatistics | Where-Object{$_.Lastlogontime -lt (Get-Date).AddDays(-90)} | Select-Object DisplayName, LastLoggedOnUserAccount, LastLogonTime
 
 #Never Logged In
 $mailboxes = Get-Mailbox -ResultSize Unlimited
