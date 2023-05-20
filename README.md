@@ -1,2 +1,3 @@
 # Threat Hunting with PowerShell
-Ensure safety on a small budget - there's no excuse!
+
+Security even with a small budget - there is no excuse!
