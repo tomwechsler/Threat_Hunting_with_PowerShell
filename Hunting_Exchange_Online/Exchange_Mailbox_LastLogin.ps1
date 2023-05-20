@@ -17,7 +17,7 @@ Connect-ExchangeOnline
 Get-AcceptedDomain | Format-List Domainname, *type*
 
 #Specific information from a user
-Get-Mailbox -Identity jane.ford@tomrocks.ch | Format-List Identity,WhenCreated,ExchangeGUID
+Get-Mailbox -Identity jane.ford | Format-List Identity,WhenCreated,ExchangeGUID
 
 #Display the list of inactive mailboxes
 Get-Mailbox -InactiveMailboxOnly | FT DisplayName,PrimarySMTPAddress,WhenSoftDeleted
