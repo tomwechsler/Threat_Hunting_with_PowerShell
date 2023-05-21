@@ -17,12 +17,12 @@ Select-AzSubscription $subscriptionId
 $report = @()
 $vms = Get-AzVM
 $publicIps = Get-AzPublicIpAddress 
-$nics = Get-AzNetworkInterface | ?{ $_.VirtualMachine -NE $null} 
+$nics = Get-AzNetworkInterface | Where-Object{ $_.VirtualMachine -NE $null} 
 
 #Now start the loop
 foreach ($nic in $nics) { 
-    $info = "" | Select VmName, ResourceGroupName, Region, VirturalNetwork, Subnet, PrivateIpAddress, OsType, PublicIPAddress 
-    $vm = $vms | ? -Property Id -eq $nic.VirtualMachine.id 
+    $info = "" | Select-Object VmName, ResourceGroupName, Region, VirturalNetwork, Subnet, PrivateIpAddress, OsType, PublicIPAddress 
+    $vm = $vms | Where-Object -Property Id -eq $nic.VirtualMachine.id 
     foreach($publicIp in $publicIps) { 
         if($nic.IpConfigurations.id -eq $publicIp.ipconfiguration.Id) {
             $info.PublicIPAddress = $publicIp.ipaddress
@@ -39,7 +39,7 @@ foreach ($nic in $nics) {
     } 
 
 #Now let's look at the result    
-$report | ft VmName, ResourceGroupName, Region, VirturalNetwork, Subnet, PrivateIpAddress, OsType, PublicIPAddress
+$report | Format-Table VmName, ResourceGroupName, Region, VirturalNetwork, Subnet, PrivateIpAddress, OsType, PublicIPAddress
 
 #We save the file in our home folder
 $report | Export-CSV "$home/$reportName"
